@@ -1,6 +1,9 @@
 package com.company.scenes;
 
 import com.company.Main;
+import com.company.entities.AVLTree;
+import com.company.entities.BST;
+import com.company.entities.TreeNode;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,9 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class TestScene {
@@ -35,6 +35,10 @@ public class TestScene {
         mainPane.setCenter(pane);
         mainPane.setBottom(hBox);
         Scene scene = new Scene(mainPane, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
+
+        Comparable numbers[] = {6, 3, 9, 1, 5, 7, 11};
+
+        AVLTree tree = new AVLTree(numbers);
 
         stage.setScene(scene);
         stage.show();
