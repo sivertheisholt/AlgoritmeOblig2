@@ -187,4 +187,8 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         root = null;
         size = 0;
     }
+
+    public TreeNode<E> getRoot() {
+        return root;
+    }
 }

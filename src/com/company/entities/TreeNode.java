@@ -8,4 +8,16 @@ public class TreeNode<E> {
     public TreeNode(E e) {
         this.element = e;
     }
+
+    public TreeNode<E> getLeft() {
+        return left;
+    }
+
+    public TreeNode<E> getRight() {
+        return right;
+    }
+
+    public E getElement() {
+        return element;
+    }
 }
