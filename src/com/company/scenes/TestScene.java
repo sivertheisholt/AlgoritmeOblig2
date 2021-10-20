@@ -1,42 +1,54 @@
 package com.company.scenes;
 
 import com.company.Main;
-import javafx.geometry.Insets;
+import com.company.entities.AVLTree;
+import com.company.guis.AVLView;
+import com.company.guis.MainGui;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import static java.lang.Math.random;
 
 public class TestScene {
 
     public TestScene(Stage stage) {
-        BorderPane mainPane = new BorderPane();
-        Pane pane = new Pane();
-        HBox hBox = new HBox(10);
-        Button btn1 = new Button("Legg til");
-        Button btn2 = new Button("Slett");
-        Button btn3 = new Button("Søk");
-        Button btn4 = new Button("Random");
-        TextField input = new TextField();
-        Label lbl1 = new Label("Input: ");
-        btn1.setPrefSize(80, 35);
-        btn2.setPrefSize(80, 35);
-        btn3.setPrefSize(80, 35);
-        btn4.setPrefSize(80, 35);
-        hBox.getChildren().addAll(lbl1, input, btn1, btn2, btn3, btn4);
-        hBox.setPadding(new Insets(15));
-        mainPane.setCenter(pane);
-        mainPane.setBottom(hBox);
-        Scene scene = new Scene(mainPane, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
+        MainGui mainGui = new MainGui();
+
+        Comparable numbers[] = {6, 3, 9, 1, 5, 7, 11, 15, 20, 30, 2, 4, 10, 14, 50, 60, 70, 80, 90, 100};
+
+        AVLTree tree = new AVLTree(numbers);
+        AVLView view = new AVLView(tree, Main.WINDOW_WIDTH);
+
+        Scene scene = new Scene(mainGui, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
 
         stage.setScene(scene);
         stage.show();
+
+        addTree(view, mainGui);
+    }
+
+    public void addTree(AVLView view, BorderPane borderPane) {
+        view.drawTree();
+
+        Timeline timeline = new Timeline();
+        for (Node panes: view.getChildren()) {
+            timeline.getKeyFrames().addAll(
+                    new KeyFrame(Duration.ZERO,
+                            new KeyValue(panes.translateXProperty(), random() * -1000),
+                            new KeyValue(panes.translateYProperty(), random() * 1200)),
+                    new KeyFrame(new Duration(5000), // set end position at 40s
+                            new KeyValue(panes.translateXProperty(), 0),
+                            new KeyValue(panes.translateYProperty(), 0)
+                    )
+            );
+        }
+        timeline.play();
+        borderPane.setCenter(view);
     }
 }
