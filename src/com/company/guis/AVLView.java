@@ -25,14 +25,14 @@ public class AVLView extends Pane {
     /**
      * Lager treet i et pane
      */
-    public void drawTree() {
+    public void createTree() {
         TreeNode root = tree.getRoot();
-        drawRoot(root);
+        createRoot(root);
         if(root.getLeft() != null) {
-            drawNextNodeLeft((getWidth()/2) - RADIUS, RADIUS, root.getLeft(), HGAP);
+            createNextNodeLeft((getWidth()/2) - RADIUS, RADIUS, root.getLeft(), HGAP);
         }
         if(root.getRight() != null) {
-            drawNextNodeRight((getWidth()/2) - RADIUS, RADIUS, root.getRight(), HGAP);
+            createNextNodeRight((getWidth()/2) - RADIUS, RADIUS, root.getRight(), HGAP);
         }
     }
 
@@ -40,7 +40,7 @@ public class AVLView extends Pane {
      * Lager rooten for treet
      * @param root root noden
      */
-    private void drawRoot(TreeNode root) {
+    private void createRoot(TreeNode root) {
         StackPane stack = new StackPane();
 
         //Circle
@@ -67,7 +67,7 @@ public class AVLView extends Pane {
      * @param node Nåværende node
      * @param hGap hGap
      */
-    private void drawNextNodeLeft(double x, double y, TreeNode node, double hGap) {
+    private void createNextNodeLeft(double x, double y, TreeNode node, double hGap) {
         Double x2 = x - hGap;
         Double y2 = y + VGAP;
 
@@ -77,7 +77,7 @@ public class AVLView extends Pane {
         getChildren().addAll(stack, new Line((x + RADIUS) - RADIUS/2, (y + RADIUS) + RADIUS/2, x2 + RADIUS, y2 + RADIUS));
 
         //Draw next
-        drawNext(node, x2, y2, hGap);
+        createNext(node, x2, y2, hGap);
     }
     /**
      * Lager neste node til høyre
@@ -86,7 +86,7 @@ public class AVLView extends Pane {
      * @param node Nåværende node
      * @param hGap hGap
      */
-    private void drawNextNodeRight(double x, double y, TreeNode node, double hGap) {
+    private void createNextNodeRight(double x, double y, TreeNode node, double hGap) {
         Double x2 = x + hGap;
         Double y2 = y + VGAP;
 
@@ -96,7 +96,7 @@ public class AVLView extends Pane {
         getChildren().addAll(stack, new Line((x + RADIUS) + RADIUS/2, (y + RADIUS) + RADIUS/2, x2 + RADIUS, y2 + RADIUS));
 
         //Draw next
-        drawNext(node, x2, y2, hGap);
+        createNext(node, x2, y2, hGap);
     }
 
     /**
@@ -131,12 +131,12 @@ public class AVLView extends Pane {
      * @param y2 Y til nye noden
      * @param hGap hgap
      */
-    private void drawNext(TreeNode node, double x2, double y2, double hGap) {
+    private void createNext(TreeNode node, double x2, double y2, double hGap) {
         if(node.getRight() != null) {
-            drawNextNodeRight(x2, y2,node.getRight(), hGap/2);
+            createNextNodeRight(x2, y2,node.getRight(), hGap/2);
         }
         if(node.getLeft() != null) {
-            drawNextNodeLeft(x2, y2,node.getLeft(), hGap/2);
+            createNextNodeLeft(x2, y2,node.getLeft(), hGap/2);
         }
     }
 }
