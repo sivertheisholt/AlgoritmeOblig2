@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.scenes.TestScene;
+import com.company.scenes.DrawScene;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        TestScene testScene = new TestScene(stage);
+        DrawScene drawScene = new DrawScene(stage);
     }
 
     public static void main(String[] args) {

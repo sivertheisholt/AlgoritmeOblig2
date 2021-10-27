@@ -1,12 +1,15 @@
 package com.company.events;
 
-import com.company.scenes.TestScene;
+import com.company.scenes.DrawScene;
 import javafx.scene.control.Button;
 
 public class ButtonEvents {
-    TestScene scene;
-    public ButtonEvents(Button[] buttons, TestScene scene) {
+    DrawScene scene;
+    boolean isInt;
+
+    public ButtonEvents(Button[] buttons, DrawScene scene, boolean isInt) {
         this.scene = scene;
+        this.isInt = isInt;
         for(Button button: buttons){
             initializeButtonEvent(button);
         }
@@ -40,6 +43,10 @@ public class ButtonEvents {
         scene.searchNode();
     }
     private void random() {
-        scene.randomData(0, 100);
+        if(isInt) {
+            scene.randomDataInt(0, 100);
+        } else {
+            scene.randomDataString();
+        }
     }
 }

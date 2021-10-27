@@ -2,10 +2,10 @@ package com.company.scenes;
 
 import com.company.Main;
 import com.company.entities.AVLTree;
-import com.company.entities.TreeNode;
 import com.company.events.ButtonEvents;
 import com.company.guis.AVLView;
 import com.company.guis.MainGui;
+import com.company.guis.MessageDialog;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -17,26 +17,22 @@ import javafx.util.Duration;
 
 import javax.swing.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.random;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
-public class TestScene {
+public class DrawScene {
     private MainGui mainGui;
     private AVLTree tree;
     private AVLView view;
     private Scene scene;
-    private boolean number = true;
+    private boolean isNumber;
 
-    public TestScene(Stage stage){
+    public DrawScene(Stage stage){
         //Create the main gui
         mainGui = new MainGui();
-
-        //Test data
-        Comparable[] numbers = {6, 3, 9, 1, 5, 7, 11, 15, 20, 30, 2, 4, 10, 14, 50, 60, 70, 80, 90, 100};
 
         //Create tree
         tree = new AVLTree();
@@ -45,8 +41,12 @@ public class TestScene {
         //Create scene
         scene = new Scene(mainGui, Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT);
 
+        //Ask for type
+        MessageDialog dialog = new MessageDialog();
+        isNumber = dialog.askType();
+
         //Initialize buttons
-        ButtonEvents buttons = new ButtonEvents(mainGui.getButtons(), this);
+        ButtonEvents buttons = new ButtonEvents(mainGui.getButtons(), this, isNumber);
 
         //Stage
         stage.setScene(scene);
@@ -84,7 +84,34 @@ public class TestScene {
      * Legger til en ny node og tegner treet på nytt
      */
     public void addNode() {
-        tree.insert(Integer.parseInt(mainGui.getInput().getText()));
+        String input = mainGui.getInput().getText();
+        if(isNumber && checkIfInt(input)) {
+            addNumber(input);
+            return;
+        } else if(!isNumber && !checkIfInt(input) && input.length() == 1) {
+            addChar(input.toUpperCase().charAt(0));
+            return;
+        }
+        showErrorMessage("Wrong format! Please enter a " + (isNumber ? "number" : "string"));
+    }
+
+    public void addNumber(String input) {
+        if(!tree.search(Integer.parseInt(input))) {
+            tree.insert(Integer.parseInt(input));
+            updateNode();
+        } else {
+         showErrorMessage("Number is already in the tree!");
+        }
+    }
+    public void addChar(char input) {
+        if(!tree.search(input)) {
+            tree.insert(input);
+            updateNode();
+        } else {
+            showErrorMessage("Character is already in the tree!");
+        }
+    }
+    public void updateNode() {
         view.getChildren().clear();
         view.createTree();
         mainGui.getInput().setText("");
@@ -116,13 +143,25 @@ public class TestScene {
      * @param min minste nummer
      * @param max største nummer
      */
-    public void randomData(int min, int max) {
+    public void randomDataInt(int min, int max) {
         HashMap<Integer, Integer> numbers = new HashMap<>();
         for(int i = 0; i < 10; i++) {
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
             if(numbers.containsKey(randomNum))
                 continue;
             numbers.put(randomNum, randomNum);
+        }
+        tree.clear();
+        tree.insertMultiple(numbers.values().toArray(new Comparable[0]));
+        addTree(view, mainGui);
+    }
+    public void randomDataString() {
+        HashMap<Character, Character> numbers = new HashMap<>();
+        for(int i = 0; i < 10; i++) {
+            int randomNum = ThreadLocalRandom.current().nextInt(65, 90);
+            if(numbers.containsKey((int) randomNum))
+                continue;
+            numbers.put((char) randomNum, (char) randomNum);
         }
         tree.clear();
         tree.insertMultiple(numbers.values().toArray(new Comparable[0]));
@@ -151,9 +190,9 @@ public class TestScene {
      * Sjekker om input er string eller nummer
      * @return true om det er int, false annet
      */
-    private boolean checkIfInt() {
+    private boolean checkIfInt(String input) {
         try {
-            Integer.parseInt(mainGui.getInput().getText());
+            Integer.parseInt(input);
             return true;
         }catch(NumberFormatException e) {
             return false;
