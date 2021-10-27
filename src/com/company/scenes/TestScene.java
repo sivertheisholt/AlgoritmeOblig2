@@ -17,6 +17,8 @@ import javafx.util.Duration;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.random;
@@ -82,9 +84,6 @@ public class TestScene {
      * Legger til en ny node og tegner treet på nytt
      */
     public void addNode() {
-        if(checkIfInt()) {
-
-        }
         tree.insert(Integer.parseInt(mainGui.getInput().getText()));
         view.getChildren().clear();
         view.createTree();
@@ -118,13 +117,15 @@ public class TestScene {
      * @param max største nummer
      */
     public void randomData(int min, int max) {
-        Comparable[] numbers = new Comparable[10];
+        HashMap<Integer, Integer> numbers = new HashMap<>();
         for(int i = 0; i < 10; i++) {
             int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-            numbers[i] = randomNum;
+            if(numbers.containsKey(randomNum))
+                continue;
+            numbers.put(randomNum, randomNum);
         }
         tree.clear();
-        tree.insertMultiple(numbers);
+        tree.insertMultiple(numbers.values().toArray(new Comparable[0]));
         addTree(view, mainGui);
     }
 

@@ -1,6 +1,7 @@
 package com.company.entities;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AVLTree<E extends Comparable<E>> extends BST<E>{
 
@@ -86,7 +87,7 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
 
 
         /** PRINT DEBUG */
-        /*
+
         Iterator<TreeNode<E>> debug = output.iterator();
 
         System.out.println("Start");
@@ -95,7 +96,7 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         }
         System.out.println("End");
         System.out.println();
-        */
+
         return output;
     }
 
