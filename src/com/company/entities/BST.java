@@ -34,6 +34,15 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     }
 
     @Override
+    public boolean insertMultiple(E[] objects) {
+        boolean insert = false;
+        for(E item : objects) {
+            insert = insert(item);
+        }
+        return insert;
+    }
+
+    @Override
     public boolean insert(E e) {
         if (root == null) root = createNewNode(e);
         else {

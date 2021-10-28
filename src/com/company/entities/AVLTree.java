@@ -1,10 +1,13 @@
 package com.company.entities;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 public class AVLTree<E extends Comparable<E>> extends BST<E>{
+
+    public AVLTree() {
+        super();
+    }
 
     public AVLTree(E[] objects) {
         super(objects);
@@ -18,10 +21,11 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
     @Override
     public boolean insert(E e) {
         boolean successful = super.insert(e);
-            if(!successful)
+            if(!successful) {
+                System.out.println("Failed");
                 return false;
-            else {
-                System.out.println(e);
+            } else {
+                System.out.println("Balancing tree");
                 balancePath(e);
             }
             return true;
@@ -81,7 +85,9 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         ArrayList<TreeNode<E>> output = new ArrayList<>();
         getAncestors(this.root, e, output);
 
+
         /** PRINT DEBUG */
+
         Iterator<TreeNode<E>> debug = output.iterator();
 
         System.out.println("Start");

@@ -6,6 +6,7 @@ public interface Tree<E> extends Collection<E> {
     boolean search(E e); // ret. true dersom finst
     boolean insert(E e); // ret. true dersom OK
     boolean delete(E e); // ret. True dersom OK
+    boolean insertMultiple(E[] e);
     int getSize();
 
     // Vi såg på desse forrige veke
