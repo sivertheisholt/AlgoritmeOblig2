@@ -6,6 +6,7 @@ import com.company.events.ButtonEvents;
 import com.company.guis.AVLView;
 import com.company.guis.MainGui;
 import com.company.guis.MessageDialog;
+import com.company.systems.InnsettingSystem;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -29,10 +30,16 @@ public class DrawScene {
     private AVLView view;
     private Scene scene;
     private boolean isNumber;
+    private InnsettingSystem innsettingSystem;
+
+    public AVLTree getTree() {
+        return tree;
+    }
 
     public DrawScene(Stage stage){
         //Create the main gui
         mainGui = new MainGui();
+        innsettingSystem = new InnsettingSystem(this);
 
         //Create tree
         tree = new AVLTree();
@@ -96,19 +103,18 @@ public class DrawScene {
     }
 
     public void addNumber(String input) {
-        if(!tree.search(Integer.parseInt(input))) {
-            tree.insert(Integer.parseInt(input));
-            updateNode();
-        } else {
-         showErrorMessage("Number is already in the tree!");
-        }
-    }
-    public void addChar(char input) {
-        if(!tree.search(input)) {
+        if (innsettingSystem.sjekkOmNummerEksisterer(Integer.parseInt(input), "Number is already in the tree!")){
             tree.insert(input);
             updateNode();
-        } else {
-            showErrorMessage("Character is already in the tree!");
+        };
+    }
+
+
+
+    public void addChar(char input) {
+        if(innsettingSystem.sjekkOmCharEksisterer(input,"Character is already in the tree!")) {
+            tree.insert(input);
+            updateNode();
         }
     }
     public void updateNode() {
@@ -181,7 +187,7 @@ public class DrawScene {
      * Viser error dialog
      * @param message melding som dialogen skal inneholde
      */
-    private void showErrorMessage(String message) {
+    public void showErrorMessage(String message) {
         JFrame frame = new JFrame();
         JOptionPane.showMessageDialog(frame, message, "Error", ERROR_MESSAGE);
     }
