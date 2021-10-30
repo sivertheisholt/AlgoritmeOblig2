@@ -29,6 +29,8 @@ public class ButtonEvents {
             case "random":
                 button.setOnAction((event) -> random());
                 break;
+            case "minste":
+                button.setOnAction((event) -> minste());
             default:
                 System.out.println("Cant find button ID");
         }
@@ -48,5 +50,8 @@ public class ButtonEvents {
         } else {
             scene.randomDataString();
         }
+    }
+    private void minste() {
+        scene.minste();
     }
 }

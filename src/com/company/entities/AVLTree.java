@@ -100,6 +100,22 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         return output;
     }
 
+    public ArrayList<TreeNode<E>> getNodes() {
+        ArrayList<TreeNode<E>> output = new ArrayList<>();
+        getNode(root, output);
+        return output;
+    }
+    public void getNode(TreeNode<E> node, ArrayList<TreeNode<E>> output) {
+        if(node.left != null) {
+            output.add(node.left);
+            getNode(node.left, output);
+        }
+        if(node.right != null) {
+            output.add(node.right);
+            getNode(node.right, output);
+        }
+    }
+
     private boolean getAncestors(TreeNode<E> node, E e, ArrayList<TreeNode<E>> output) {
         //First we need to check node is null
         if(node == null) {

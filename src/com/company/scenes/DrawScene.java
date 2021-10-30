@@ -2,10 +2,13 @@ package com.company.scenes;
 
 import com.company.Main;
 import com.company.entities.AVLTree;
+import com.company.entities.Tree;
+import com.company.entities.TreeNode;
 import com.company.events.ButtonEvents;
 import com.company.guis.AVLView;
 import com.company.guis.MainGui;
 import com.company.guis.MessageDialog;
+import com.company.systems.AksessSystem;
 import com.company.systems.InnsettingSystem;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,7 +21,9 @@ import javafx.util.Duration;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.random;
@@ -31,6 +36,7 @@ public class DrawScene {
     private Scene scene;
     private boolean isNumber;
     private InnsettingSystem innsettingSystem;
+    private AksessSystem aksessSystem;
 
     public AVLTree getTree() {
         return tree;
@@ -40,6 +46,7 @@ public class DrawScene {
         //Create the main gui
         mainGui = new MainGui();
         innsettingSystem = new InnsettingSystem(this);
+        aksessSystem = new AksessSystem();
 
         //Create tree
         tree = new AVLTree();
@@ -203,5 +210,19 @@ public class DrawScene {
         }catch(NumberFormatException e) {
             return false;
         }
+    }
+
+    public void minste() {
+
+        tree.getNodes();
+        tree.forEach(item -> {
+            System.out.println(item);
+        });
+
+
+
+
+        //int test = aksessSystem.minsteTall(tree.getNodes(), Integer.parseInt(mainGui.getInput().getText()));
+        //System.out.println(test);
     }
 }

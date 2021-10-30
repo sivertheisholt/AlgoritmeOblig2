@@ -20,6 +20,8 @@ public class MainGui extends BorderPane{
         btn3.setId("search");
         Button btn4 = new Button("Random");
         btn4.setId("random");
+        Button btn5 = new Button("Minste");
+        btn5.setId("minste");
 
         input = new TextField();
         Label lbl1 = new Label("Input: ");
@@ -27,10 +29,11 @@ public class MainGui extends BorderPane{
         btn2.setPrefSize(80, 35);
         btn3.setPrefSize(80, 35);
         btn4.setPrefSize(80, 35);
-        hBox.getChildren().addAll(lbl1, input, btn1, btn2, btn3, btn4);
+        btn5.setPrefSize(80, 35);
+        hBox.getChildren().addAll(lbl1, input, btn1, btn2, btn3, btn4, btn5);
         hBox.setPadding(new Insets(15));
         setBottom(hBox);
-        Button[] buttons = {btn1, btn2, btn3, btn4};
+        Button[] buttons = {btn1, btn2, btn3, btn4, btn5};
         this.buttons = buttons;
     }
 
