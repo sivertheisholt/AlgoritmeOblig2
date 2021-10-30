@@ -119,7 +119,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override

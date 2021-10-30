@@ -98,6 +98,11 @@ public class DrawScene {
      * Legger til en ny node og tegner treet på nytt
      */
     public void addNode() {
+        System.out.println(tree.getSize());
+        if(tree.getSize() > 12){
+            showErrorMessage("Max nodes added");
+            return;
+        }
         String input = mainGui.getInput().getText();
         if(isNumber && checkIfInt(input)) {
             addNumber(input);
