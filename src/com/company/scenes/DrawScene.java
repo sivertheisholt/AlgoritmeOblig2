@@ -2,14 +2,11 @@ package com.company.scenes;
 
 import com.company.Main;
 import com.company.entities.AVLTree;
-import com.company.entities.Tree;
-import com.company.entities.TreeNode;
 import com.company.events.ButtonEvents;
 import com.company.guis.AVLView;
 import com.company.guis.MainGui;
 import com.company.guis.MessageDialog;
-import com.company.systems.AksessSystem;
-import com.company.systems.InnsettingSystem;
+import com.company.systems.subSystems.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -19,15 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.*;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.random;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class DrawScene {
     private MainGui mainGui;
@@ -35,18 +26,20 @@ public class DrawScene {
     private AVLView view;
     private Scene scene;
     private boolean isNumber;
-    private InnsettingSystem innsettingSystem;
+    private AddSystem innsettingSystem;
     private AksessSystem aksessSystem;
-
-    public AVLTree getTree() {
-        return tree;
-    }
+    private RandomSystem randomSystem;
+    private RemoveSystem sletteSystem;
+    private SearchSystem searchSystem;
 
     public DrawScene(Stage stage){
         //Create the main gui
         mainGui = new MainGui();
-        innsettingSystem = new InnsettingSystem(this);
-        aksessSystem = new AksessSystem();
+        innsettingSystem = new AddSystem(this);
+        aksessSystem = new AksessSystem(this);
+        randomSystem = new RandomSystem(this);
+        sletteSystem = new RemoveSystem(this);
+        searchSystem = new SearchSystem(this);
 
         //Create tree
         tree = new AVLTree();
@@ -98,51 +91,24 @@ public class DrawScene {
      * Legger til en ny node og tegner treet på nytt
      */
     public void addNode() {
-        System.out.println(tree.getSize());
-        if(tree.getSize() > 12){
-            showErrorMessage("Max nodes added");
-            return;
-        }
         String input = mainGui.getInput().getText();
-        if(isNumber && checkIfInt(input)) {
-            addNumber(input);
-            return;
-        } else if(!isNumber && !checkIfInt(input) && input.length() == 1) {
-            addChar(input.toUpperCase().charAt(0));
-            return;
-        }
-        showErrorMessage("Wrong format! Please enter a " + (isNumber ? "number" : "string"));
-    }
+        int size = tree.getSize();
 
-    public void addNumber(String input) {
-        if (innsettingSystem.sjekkOmNummerEksisterer(Integer.parseInt(input), "Number is already in the tree!")){
-            tree.insert(input);
-            updateNode();
-        };
-    }
-
-
-
-    public void addChar(char input) {
-        if(innsettingSystem.sjekkOmCharEksisterer(input,"Character is already in the tree!")) {
-            tree.insert(input);
-            updateNode();
+        if(isNumber) {
+            if(innsettingSystem.checkInsertNumber(input, size))
+                addNumber(Integer.parseInt(input));
+        } else {
+            String inputBig = input.toUpperCase();
+            if(innsettingSystem.checkInsertChar(inputBig, size));
+                addChar(inputBig.charAt(0));
         }
     }
-    public void updateNode() {
-        view.getChildren().clear();
-        view.createTree();
-        mainGui.getInput().setText("");
-    }
-
     /**
      * Søker etter en node
      */
     public void searchNode() {
-        if(tree.search(Integer.parseInt(mainGui.getInput().getText())))
-            showInfoMessage("Value is in tree");
-        else
-            showInfoMessage("Value is NOT in tree");
+        String input = mainGui.getInput().getText();
+        searchSystem.searchNode(input.toUpperCase());
         mainGui.getInput().setText("");
     }
 
@@ -150,84 +116,93 @@ public class DrawScene {
      * Fjerner en node og tegner treet på nytt
      */
     public void removeNode() {
-        tree.remove(Integer.parseInt(mainGui.getInput().getText()));
+        String input = mainGui.getInput().getText();
+        if(isNumber) {
+            if(sletteSystem.removeNodeCheck(input.toUpperCase())){
+
+                tree.remove(Integer.parseInt(input));
+            }
+        } else {
+            if(sletteSystem.removeNodeCheck(input.toUpperCase())); {
+                tree.remove(input.charAt(0));
+            }
+        }
         view.getChildren().clear();
         view.createTree();
         mainGui.getInput().setText("");
     }
 
     /**
-     * Lager 10 random nodes og tegner treet på nytt
+     * Lager 10 random nodes for char og tegner treet på nytt
+     */
+    public void randomDataChar() {
+        tree.clear();
+        tree.insertMultiple(randomSystem.randomDataChar());
+        addTree(view, mainGui);
+    }
+
+    /**
+     * Lager 10 random nodes for int og tegner treet på nytt
      * @param min minste nummer
      * @param max største nummer
      */
     public void randomDataInt(int min, int max) {
-        HashMap<Integer, Integer> numbers = new HashMap<>();
-        for(int i = 0; i < 10; i++) {
-            int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
-            if(numbers.containsKey(randomNum))
-                continue;
-            numbers.put(randomNum, randomNum);
-        }
         tree.clear();
-        tree.insertMultiple(numbers.values().toArray(new Comparable[0]));
-        addTree(view, mainGui);
-    }
-    public void randomDataString() {
-        HashMap<Character, Character> numbers = new HashMap<>();
-        for(int i = 0; i < 10; i++) {
-            int randomNum = ThreadLocalRandom.current().nextInt(65, 90);
-            if(numbers.containsKey((int) randomNum))
-                continue;
-            numbers.put((char) randomNum, (char) randomNum);
-        }
-        tree.clear();
-        tree.insertMultiple(numbers.values().toArray(new Comparable[0]));
+        tree.insertMultiple(randomSystem.randomDataInt(min, max));
         addTree(view, mainGui);
     }
 
     /**
-     * Viser info dialog
-     * @param message melding som dialogen skal inneholde
+     * Finner x minste tall i treet
+     * Vi har 2 metoder her, ettersom vi har litt usikre på hva du ville med o(logn) her
+     * Data fra treet er allerede sortert som gjør at x = index + 1
      */
-    private void showInfoMessage(String message) {
-        JFrame frame = new JFrame();
-        JOptionPane.showMessageDialog(frame, message);
-    }
-
-    /**
-     * Viser error dialog
-     * @param message melding som dialogen skal inneholde
-     */
-    public void showErrorMessage(String message) {
-        JFrame frame = new JFrame();
-        JOptionPane.showMessageDialog(frame, message, "Error", ERROR_MESSAGE);
-    }
-
-    /**
-     * Sjekker om input er string eller nummer
-     * @return true om det er int, false annet
-     */
-    private boolean checkIfInt(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;
-        }catch(NumberFormatException e) {
-            return false;
-        }
-    }
-
     public void minste() {
+        String input = mainGui.getInput().getText();
+        ArrayList<Integer> array = new ArrayList<>();
+        int[] intArray = new int[tree.getSize()];
 
-        tree.getNodes();
-        tree.forEach(item -> {
-            System.out.println(item);
-        });
+        tree.forEach(item -> array.add((int) item));
 
+        for(int i = 0; i < array.size(); i++) {
+            intArray[i] = array.get(i);
+        }
 
+        //Ferdig sortert
+        aksessSystem.noSort(array, input);
 
+        //Shuffel og sorter
+        aksessSystem.mergeSort(intArray, 0, array.size() - 1);
+    }
 
-        //int test = aksessSystem.minsteTall(tree.getNodes(), Integer.parseInt(mainGui.getInput().getText()));
-        //System.out.println(test);
+    public AVLTree getTree() {
+        return tree;
+    }
+
+    /**
+     * Legger til ny int
+     * @param number
+     */
+    private void addNumber(int number) {
+            tree.insert(number);
+            updateNode();
+    }
+
+    /**
+     * Legger til ny chart
+     * @param input
+     */
+    private void addChar(char input) {
+        tree.insert(input);
+        updateNode();
+    }
+
+    /**
+     * Oppdaterer treet med nye node
+     */
+    private void updateNode() {
+        view.getChildren().clear();
+        view.createTree();
+        mainGui.getInput().setText("");
     }
 }

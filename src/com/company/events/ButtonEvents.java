@@ -48,7 +48,7 @@ public class ButtonEvents {
         if(isInt) {
             scene.randomDataInt(0, 100);
         } else {
-            scene.randomDataString();
+            scene.randomDataChar();
         }
     }
     private void minste() {
