@@ -32,7 +32,7 @@ public class DrawScene {
     private AddSystem innsettingSystem;
     private AksessSystem aksessSystem;
     private RandomSystem randomSystem;
-    private RemoveSystem sletteSystem;
+    private RemoveSystem removeSystem;
     private SearchSystem searchSystem;
 
     /**
@@ -45,7 +45,7 @@ public class DrawScene {
         innsettingSystem = new AddSystem(this);
         aksessSystem = new AksessSystem(this);
         randomSystem = new RandomSystem(this);
-        sletteSystem = new RemoveSystem(this);
+        removeSystem = new RemoveSystem(this);
         searchSystem = new SearchSystem(this);
 
         //Create tree
@@ -118,7 +118,11 @@ public class DrawScene {
      */
     public void searchNode() {
         String input = mainGui.getInput().getText();
-        searchSystem.searchNode(input.toUpperCase());
+        if(isNumber) {
+            searchSystem.searchNodeInt(input);
+        } else {
+            searchSystem.searchNodeChar(input.toUpperCase());
+        }
         mainGui.getInput().setText("");
     }
 
@@ -128,14 +132,15 @@ public class DrawScene {
     public void removeNode() {
         String input = mainGui.getInput().getText();
         if(isNumber) {
-            if(sletteSystem.removeNodeCheck(input.toUpperCase())){
+            if(removeSystem.removeNodeCheckInt(input.toUpperCase())){
                 tree.remove(Integer.parseInt(input));
             }
         } else {
-            if(sletteSystem.removeNodeCheck(input.toUpperCase())); {
+            if(removeSystem.removeNodeCheckChar(input.toUpperCase())); {
                 tree.remove(input.charAt(0));
             }
         }
+
         view.getChildren().clear();
         view.createTree();
         mainGui.getInput().setText("");
@@ -163,7 +168,7 @@ public class DrawScene {
 
     /**
      * Finner x minste tall i treet
-     * Vi har 2 metoder her, ettersom vi har litt usikre på hva du ville med o(logn) her
+     * Vi har 2 metoder her, ettersom vi har litt usikre på hva du ville med o(logn)
      * Data fra treet er allerede sortert som gjør at x = index + 1
      */
     public void minste() {
@@ -171,7 +176,7 @@ public class DrawScene {
         ArrayList<Integer> array = new ArrayList<>();
         int[] intArray = new int[tree.getSize()];
 
-        tree.forEach(item -> array.add((int) item));
+        tree.forEach(item -> array.add((Integer) item));
 
         for(int i = 0; i < array.size(); i++) {
             intArray[i] = array.get(i);
@@ -182,6 +187,7 @@ public class DrawScene {
 
         //Shuffel og sorter
         aksessSystem.mergeSort(intArray, 0, array.size() - 1);
+        aksessSystem.sort(intArray, input.toUpperCase());
     }
 
     public AVLTree getTree() {

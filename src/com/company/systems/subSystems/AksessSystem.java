@@ -30,6 +30,18 @@ public class AksessSystem extends MainSystem {
         }
     }
 
+    public void sort(int[] array, String input) {
+        if(checkIfInt(input)) {
+            try{
+                showInfoMessage("Method2: " + array[Integer.parseInt(input) - 1]);
+            } catch(IndexOutOfBoundsException e) {
+                showErrorMessage("Input not valid!");
+            }
+        } else {
+            showErrorMessage("Please input a number instead!");
+        }
+    }
+
     /**
      * Merger til 1 array
      * KILDE: https://favtutor.com/blogs/sorting-algorithms-java
