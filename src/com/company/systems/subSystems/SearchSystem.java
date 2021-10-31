@@ -3,10 +3,18 @@ package com.company.systems.subSystems;
 import com.company.scenes.DrawScene;
 import com.company.systems.MainSystem;
 
+/**
+ * Denne klassen håndtere validering av søking i treet
+ */
 public class SearchSystem extends MainSystem {
     public SearchSystem(DrawScene drawScene) {
         super(drawScene);
     }
+
+    /**
+     * Sjekker om en node eksisterer eller ikke
+     * @param input Input fra brukeren
+     */
     public void searchNode(String input) {
         if(!checkIfInt(input)) {
             if(!sjekkForSymboler(input)) {

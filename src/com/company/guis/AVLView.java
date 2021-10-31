@@ -10,13 +10,20 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 
+/**
+ * AVLView har hovedansvaret for å tegne treet
+ */
 public class AVLView extends Pane {
     private BST<Integer> tree;
     private final double RADIUS = 15; // final!!!!!!
     private final double VGAP = 75; // final!!!!!!
     private final double HGAP = 150;
 
-
+    /**
+     * Konstruktøren for AVLView
+     * @param tree treet som skal tegnes
+     * @param width bredden på treet
+     */
     public AVLView(BST<Integer> tree, double width) {
         setWidth(width);
         this.tree = tree;

@@ -3,11 +3,20 @@ package com.company.systems.subSystems;
 import com.company.scenes.DrawScene;
 import com.company.systems.MainSystem;
 
+/**
+ * Denne klassen håndterer validering av å legge til ny node
+ */
 public class AddSystem extends MainSystem {
     public AddSystem(DrawScene drawScene) {
         super(drawScene);
     }
 
+    /**
+     * Sjekker input på adde nummer
+     * @param input input fra bruker
+     * @param size størrelse på treet
+     * @return true om alt er ok, false om input er feil
+     */
     public boolean checkInsertNumber(String input, int size) {
         if(!checkIfInt(input)) {
             showErrorMessage("Please enter a number instead!");
@@ -19,8 +28,14 @@ public class AddSystem extends MainSystem {
                 !sjekkOmNummerEksisterer(number);
     }
 
+    /**
+     * Sjekker input på adde char
+     * @param input input fra bruker
+     * @param size størrelse på treet
+     * @return true om alt er ok, false om input er feil
+     */
     public boolean checkInsertChar(String input, int size) {
-        if(!checkIfInt(input) && sjekkForSymboler(input)) {
+        if(checkIfInt(input) && !sjekkForSymboler(input)) {
             showErrorMessage("Please enter a char instead!");
             return false;
         }

@@ -5,12 +5,19 @@ import com.company.systems.MainSystem;
 
 import java.util.ArrayList;
 
-
-public class AksessSystem<E extends Comparable<E>> extends MainSystem {
+/**
+ * Denne klassen håndterer tre aksess ting
+ */
+public class AksessSystem extends MainSystem {
     public AksessSystem(DrawScene drawScene) {
         super(drawScene);
     }
 
+    /**
+     * Sjekker input og finner riktig tall utifra x minste
+     * @param array
+     * @param input
+     */
     public void noSort(ArrayList<Integer> array, String input) {
         if(checkIfInt(input)) {
             try{
@@ -23,9 +30,8 @@ public class AksessSystem<E extends Comparable<E>> extends MainSystem {
         }
     }
 
-
     /**
-     *
+     * Merger til 1 array
      * KILDE: https://favtutor.com/blogs/sorting-algorithms-java
      * @param array
      * @param venstrePos
@@ -72,7 +78,7 @@ public class AksessSystem<E extends Comparable<E>> extends MainSystem {
     }
 
     /**
-     *
+     * Sorterer dataen og kjører merge til slutt
      * KILDE: https://favtutor.com/blogs/sorting-algorithms-java
      * @param array
      * @param venstre
@@ -85,13 +91,6 @@ public class AksessSystem<E extends Comparable<E>> extends MainSystem {
             mergeSort(array, venstre, midten);
             mergeSort(array, midten+1, hoyre);
             merge(array, venstre,midten, hoyre);
-        }
-    }
-
-    //For testing
-    public void display(int arr[]){
-        for (int i = 0; i < arr.length; i++){
-            System.out.println(arr[i] + " ");
         }
     }
 }

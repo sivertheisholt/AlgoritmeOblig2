@@ -20,6 +20,9 @@ import java.util.ArrayList;
 
 import static java.lang.Math.random;
 
+/**
+ * Denne klassen er hoved vinduet til treet
+ */
 public class DrawScene {
     private MainGui mainGui;
     private AVLTree tree;
@@ -32,6 +35,10 @@ public class DrawScene {
     private RemoveSystem sletteSystem;
     private SearchSystem searchSystem;
 
+    /**
+     * Konstruktør for hoved scenen
+     * @param stage
+     */
     public DrawScene(Stage stage){
         //Create the main gui
         mainGui = new MainGui();
@@ -99,7 +106,7 @@ public class DrawScene {
                 addNumber(Integer.parseInt(input));
         } else {
             String inputBig = input.toUpperCase();
-            if(innsettingSystem.checkInsertChar(inputBig, size));
+            if(innsettingSystem.checkInsertChar(inputBig, size))
                 addChar(inputBig.charAt(0));
         }
     }
@@ -119,7 +126,6 @@ public class DrawScene {
         String input = mainGui.getInput().getText();
         if(isNumber) {
             if(sletteSystem.removeNodeCheck(input.toUpperCase())){
-
                 tree.remove(Integer.parseInt(input));
             }
         } else {

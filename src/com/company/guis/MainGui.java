@@ -7,9 +7,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * MainGui er hoved guiet i applikasjonen
+ */
 public class MainGui extends BorderPane{
     private Button[] buttons;
     private TextField input;
+
+    /**
+     * Konstruktøren for MainGui
+     */
     public MainGui() {
         HBox hBox = new HBox(10);
         Button btn1 = new Button("Legg til");

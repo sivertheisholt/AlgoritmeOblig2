@@ -3,10 +3,19 @@ package com.company.events;
 import com.company.scenes.DrawScene;
 import javafx.scene.control.Button;
 
+/**
+ * ButtonEvents er ansvarlig for å initialisere knappene med hendelser
+ */
 public class ButtonEvents {
-    DrawScene scene;
-    boolean isInt;
+    private DrawScene scene;
+    private boolean isInt;
 
+    /**
+     * Konstruktøren for ButtonEvents
+     * @param buttons knappene
+     * @param scene scenen som brukes
+     * @param isInt om applikasjonen er startet med type int eller char
+     */
     public ButtonEvents(Button[] buttons, DrawScene scene, boolean isInt) {
         this.scene = scene;
         this.isInt = isInt;
@@ -15,6 +24,10 @@ public class ButtonEvents {
         }
     }
 
+    /**
+     * Initialiserer knappene
+     * @param button
+     */
     private void initializeButtonEvent(Button button) {
         switch(button.getId()) {
             case "add":
