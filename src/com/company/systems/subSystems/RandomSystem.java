@@ -26,6 +26,7 @@ public class RandomSystem extends MainSystem {
         for(int i = 0; i < 10; i++) {
             int randomNum = r.nextInt((max - min) + 1) + min;
             if(numbers.containsKey(randomNum)) {
+                i--;
                 continue;
             }
             numbers.put(randomNum, randomNum);
@@ -42,8 +43,10 @@ public class RandomSystem extends MainSystem {
         Random r = new Random();
         for(int i = 0; i < 10; i++) {
             int randomNum = r.nextInt((90 - 65) + 1) + 65;
-            if(numbers.containsKey((int) randomNum))
+            if(numbers.containsKey((int) randomNum)) {
+                i--;
                 continue;
+            }
             numbers.put((char) randomNum, (char) randomNum);
         }
         return numbers.values().toArray(new Comparable[numbers.size()]);

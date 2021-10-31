@@ -30,6 +30,11 @@ public class AksessSystem extends MainSystem {
         }
     }
 
+    /**
+     * Sjekker input og finner riktig tall utifra x minste
+     * @param array
+     * @param input
+     */
     public void sort(int[] array, String input) {
         if(checkIfInt(input)) {
             try{

@@ -50,7 +50,7 @@ public class AddSystem extends MainSystem {
      * @return
      */
     private boolean sjekkMax(int size) {
-        if(size > 12){
+        if(size > 30){
             showErrorMessage("Max nodes added");
             return false;
         }
