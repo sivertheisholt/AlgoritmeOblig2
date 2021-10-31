@@ -90,9 +90,9 @@ public class AddSystem extends MainSystem {
      */
     private boolean sjekkOmCharEksisterer(char input){
         if(drawScene.getTree().search(input)) {
+            showErrorMessage("Char already exists in the tree!");
             return true;
         } else {
-            showErrorMessage("Char already exists in the tree!");
             return false;
         }
     }

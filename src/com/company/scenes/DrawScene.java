@@ -102,12 +102,15 @@ public class DrawScene {
         int size = tree.getSize();
 
         if(isNumber) {
-            if(innsettingSystem.checkInsertNumber(input, size))
-                addNumber(Integer.parseInt(input));
+            if(innsettingSystem.checkInsertNumber(input, size)) {
+                if(!tree.search(Integer.parseInt(input)))
+                    addNumber(Integer.parseInt(input));
+            }
         } else {
             String inputBig = input.toUpperCase();
-            if(innsettingSystem.checkInsertChar(inputBig, size))
+            if(innsettingSystem.checkInsertChar(inputBig, size)) {
                 addChar(inputBig.charAt(0));
+            }
         }
     }
     /**

@@ -1,8 +1,11 @@
 package com.company.entities;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ * Denne klassen her er fra presentasjonene i emnet, med unntak av getAncestors og path metodene
+ * @param <E>
+ */
 public class AVLTree<E extends Comparable<E>> extends BST<E>{
 
     public AVLTree() {
@@ -86,8 +89,9 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         getAncestors(this.root, e, output);
 
 
-        /** PRINT DEBUG */
 
+        /** PRINT DEBUG */
+        /*
         Iterator<TreeNode<E>> debug = output.iterator();
 
         System.out.println("Start");
@@ -96,6 +100,7 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         }
         System.out.println("End");
         System.out.println();
+        */
 
         return output;
     }
@@ -116,6 +121,13 @@ public class AVLTree<E extends Comparable<E>> extends BST<E>{
         }
     }
 
+    /**
+     * Skaffer forfedre til en node
+     * @param node Node som skal brukes
+     * @param e
+     * @param output
+     * @return
+     */
     private boolean getAncestors(TreeNode<E> node, E e, ArrayList<TreeNode<E>> output) {
         //First we need to check node is null
         if(node == null) {
